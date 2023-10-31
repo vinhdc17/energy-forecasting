@@ -1,5 +1,4 @@
-from datetime import datetime
-
+from datetime import datetime, timedelta
 from airflow.decorators import dag, task
 from airflow.models import Variable
 from airflow.operators.empty import EmptyOperator
@@ -100,6 +99,7 @@ def ml_pipeline():
         python_version="3.10",
         multiple_outputs=True,
         system_site_packages=True,
+        dagrun_timeout=timedelta(minutes=60),
     )
     def create_feature_view(feature_pipeline_metadata: dict) -> dict:
         """
