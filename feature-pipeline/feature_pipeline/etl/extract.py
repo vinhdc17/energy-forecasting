@@ -48,7 +48,7 @@ def from_file(
     """
 
     export_start, export_end = _compute_extraction_window(export_end_reference_datetime=export_end_reference_datetime, days_delay=days_delay, days_export=days_export)
-    records = _extract_records_from_file_url(url=url, export_start=export_start, export_end=export_end, datetime_format=datetime_format, cache_dir=cache_dir)
+    records = _extract_records_from_storage(raw_data_path=settings.SETTINGS["GOOGLE_CLOUD_RAW_DATASET_PATH"], export_start=export_start, export_end=export_end, datetime_format=datetime_format)
     
     metadata = {
         "days_delay": days_delay,
@@ -61,6 +61,18 @@ def from_file(
     }
 
     return records, metadata
+
+def _extract_records_from_storage(raw_data_path: str, export_start: datetime.datetime, export_end: datetime.datetime, datetime_format: str) -> Optional[pd.DataFrame]:
+    """Extract records from the google cloud storage file"""
+
+    try:
+        data = pd.read_csv(raw_data_path, delimiter=";")
+    except EmptyDataError:
+        raise ValueError(f"Not found file at {raw_data_path} . Could not load it into a DataFrame.")
+
+    records = data[(data["HourUTC"] >= export_start.strftime(datetime_format)) & (data["HourUTC"] < export_end.strftime(datetime_format))]
+
+    return records
 
 
 def _extract_records_from_file_url(url: str, export_start: datetime.datetime, export_end: datetime.datetime, datetime_format: str, cache_dir: Optional[Path] = None) -> Optional[pd.DataFrame]:
