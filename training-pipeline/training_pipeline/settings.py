@@ -30,22 +30,7 @@ def load_env_vars(root_dir: Union[str, Path]) -> dict:
 
     return dict(os.environ)
 
-
-def get_root_dir(default_value: str = ".") -> Path:
-    """
-    Get the root directory of the project.
-
-    Args:
-        default_value: Default value to use if the environment variable is not set.
-
-    Returns:
-        Path to the root directory of the project.
-    """
-
-    return Path(os.getenv("ML_PIPELINE_ROOT_DIR", default_value))
-
-
-ML_PIPELINE_ROOT_DIR = get_root_dir()
+ML_PIPELINE_ROOT_DIR = Path("/root")
 OUTPUT_DIR = ML_PIPELINE_ROOT_DIR / "output"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
