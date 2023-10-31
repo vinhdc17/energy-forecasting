@@ -13,6 +13,7 @@ from airflow.utils.edgemodifier import Label
     catchup=False,
     tags=["feature-engineering", "model-training", "batch-prediction"],
     max_active_runs=1,
+    dagrun_timeout=timedelta(minutes=60),
 )
 def ml_pipeline():
     @task.virtualenv(
@@ -99,7 +100,6 @@ def ml_pipeline():
         python_version="3.10",
         multiple_outputs=True,
         system_site_packages=True,
-        dagrun_timeout=timedelta(minutes=60),
     )
     def create_feature_view(feature_pipeline_metadata: dict) -> dict:
         """
