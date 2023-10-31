@@ -19,11 +19,11 @@ def ml_pipeline():
     @task.virtualenv(
         task_id="run_feature_pipeline",
         requirements=[
-            "--trusted-host 172.17.0.1",
-            "--extra-index-url http://172.17.0.1",
+            # "--trusted-host 172.17.0.1",
+            # "--extra-index-url http://172.17.0.1",
             "feature_pipeline",
         ],
-        python_version="3.9",
+        python_version="3.10",
         multiple_outputs=True,
         system_site_packages=True,
     )
@@ -93,13 +93,13 @@ def ml_pipeline():
     @task.virtualenv(
         task_id="create_feature_view",
         requirements=[
-            "--trusted-host 172.17.0.1",
-            "--extra-index-url http://172.17.0.1",
+            # "--trusted-host 172.17.0.1",
+            # "--extra-index-url http://172.17.0.1",
             "feature_pipeline",
         ],
-        python_version="3.9",
+        python_version="3.10",
         multiple_outputs=True,
-        system_site_packages=False,
+        system_site_packages=True,
     )
     def create_feature_view(feature_pipeline_metadata: dict) -> dict:
         """
@@ -116,13 +116,13 @@ def ml_pipeline():
     @task.virtualenv(
         task_id="run_hyperparameter_tuning",
         requirements=[
-            "--trusted-host 172.17.0.1",
-            "--extra-index-url http://172.17.0.1",
+            # "--trusted-host 172.17.0.1",
+            # "--extra-index-url http://172.17.0.1",
             "training_pipeline",
         ],
-        python_version="3.9",
+        python_version="3.10",
         multiple_outputs=True,
-        system_site_packages=False,
+        system_site_packages=True,
     )
     def run_hyperparameter_tuning(feature_view_metadata: dict) -> dict:
         """
@@ -141,13 +141,13 @@ def ml_pipeline():
     @task.virtualenv(
         task_id="upload_best_config",
         requirements=[
-            "--trusted-host 172.17.0.1",
-            "--extra-index-url http://172.17.0.1",
+            # "--trusted-host 172.17.0.1",
+            # "--extra-index-url http://172.17.0.1",
             "training_pipeline",
         ],
-        python_version="3.9",
-        multiple_outputs=False,
-        system_site_packages=False,
+        python_version="3.10",
+        multiple_outputs=True,
+        system_site_packages=True,
     )
     def upload_best_config(last_sweep_metadata: dict):
         """
@@ -162,13 +162,13 @@ def ml_pipeline():
     @task.virtualenv(
         task_id="train_from_best_config",
         requirements=[
-            "--trusted-host 172.17.0.1",
-            "--extra-index-url http://172.17.0.1",
+            # "--trusted-host 172.17.0.1",
+            # "--extra-index-url http://172.17.0.1",
             "training_pipeline",
         ],
-        python_version="3.9",
+        python_version="3.10",
         multiple_outputs=True,
-        system_site_packages=False,
+        system_site_packages=True,
         trigger_rule=TriggerRule.ALL_DONE,
     )
     def train_from_best_config(feature_view_metadata: dict) -> dict:
@@ -197,12 +197,12 @@ def ml_pipeline():
     @task.virtualenv(
         task_id="compute_monitoring",
         requirements=[
-            "--trusted-host 172.17.0.1",
-            "--extra-index-url http://172.17.0.1",
+            # "--trusted-host 172.17.0.1",
+            # "--extra-index-url http://172.17.0.1",
             "batch_prediction_pipeline",
         ],
-        python_version="3.9",
-        system_site_packages=False,
+        python_version="3.10",
+        system_site_packages=True,
     )
     def compute_monitoring(feature_view_metadata: dict):
         """Compute monitoring metrics for newly obbserved data.
@@ -220,12 +220,12 @@ def ml_pipeline():
     @task.virtualenv(
         task_id="batch_predict",
         requirements=[
-            "--trusted-host 172.17.0.1",
-            "--extra-index-url http://172.17.0.1",
+            # "--trusted-host 172.17.0.1",
+            # "--extra-index-url http://172.17.0.1",
             "batch_prediction_pipeline",
         ],
-        python_version="3.9",
-        system_site_packages=False,
+        python_version="3.10",
+        system_site_packages=True,
     )
     def batch_predict(
         feature_view_metadata: dict,
@@ -338,6 +338,5 @@ def ml_pipeline():
         >> compute_monitoring_step
         >> batch_predict_step
     )
-
 
 ml_pipeline()
