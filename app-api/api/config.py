@@ -41,9 +41,9 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "Energy Consumption API"
 
     # Google Cloud Platform credentials
-    GCP_PROJECT: Optional[str] = None
-    GCP_BUCKET: Optional[str] = None
-    GCP_SERVICE_ACCOUNT_JSON_PATH: Optional[str] = None
+    GCP_PROJECT: Optional[str] = "vinhdc17-mlops"
+    GCP_BUCKET: Optional[str] = "vinhdc17-hourly-batch-predictions"
+    GCP_SERVICE_ACCOUNT_JSON_PATH: Optional[str] = "./service-account.json"
 
     class Config:
         env_file = ".env"
