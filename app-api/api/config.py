@@ -43,7 +43,7 @@ class Settings(BaseSettings):
     # Google Cloud Platform credentials
     GCP_PROJECT: Optional[str] = "vinhdc17-mlops"
     GCP_BUCKET: Optional[str] = "vinhdc17-hourly-batch-predictions"
-    GCP_SERVICE_ACCOUNT_JSON_PATH: Optional[str] = "./service-account.json"
+    GCP_SERVICE_ACCOUNT_JSON_PATH: Optional[str] = "/app/src/service-account.json"
 
     class Config:
         env_file = ".env"
