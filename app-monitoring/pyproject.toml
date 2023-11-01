@@ -8,7 +8,7 @@ packages = [{include = "monitoring"}]
 
 [tool.poetry.dependencies]
 python = ">3.9.7,<=3.10.12"
-streamlit = ">=1.21.0,<1.22.0"
+streamlit = ">=1.21.0,<=1.22.0"
 plotly = ">=5.14.1,<=5.18.0"
 yarl = ">=1.8.2"
 
