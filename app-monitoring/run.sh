@@ -1,0 +1,1 @@
+streamlit run monitoring/main.py --server.port 8502
