@@ -18,4 +18,4 @@ RUN poetry install --no-interaction --no-root -vvv
 # Copy the rest of the files.
 ADD ./app-frontend /app/src
 
-CMD ["streamlit", "run", "frontend/main.py", "--server.port", "8501"]
+CMD ["sudo", "streamlit", "run", "frontend/main.py", "--server.port", "8501"]

@@ -21,4 +21,4 @@ ADD ./app-api /app/src
 # Give access to run the run.sh script.
 RUN chmod +x run.sh
 
-CMD ["bash", "./run.sh"]
+CMD ["sudo", "bash", "./run.sh"]
