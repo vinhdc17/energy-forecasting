@@ -1,1 +1,1 @@
-/usr/local/bin/python -m api
+python3 -m api
