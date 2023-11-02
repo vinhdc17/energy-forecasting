@@ -195,29 +195,6 @@ def ml_pipeline():
         )
 
     @task.virtualenv(
-        task_id="compute_monitoring",
-        requirements=[
-            # "--trusted-host 172.17.0.1",
-            # "--extra-index-url http://172.17.0.1",
-            "batch_prediction_pipeline",
-        ],
-        python_version="3.10",
-        system_site_packages=True,
-    )
-    def compute_monitoring(feature_view_metadata: dict):
-        """Compute monitoring metrics for newly obbserved data.
-
-        Args:
-            feature_view_metadata: metadata containing the version of the feature store feature view version.
-        """
-
-        from batch_prediction_pipeline import monitoring
-
-        monitoring.compute(
-            feature_view_version=feature_view_metadata["feature_view_version"],
-        )
-
-    @task.virtualenv(
         task_id="batch_predict",
         requirements=[
             # "--trusted-host 172.17.0.1",
@@ -262,6 +239,31 @@ def ml_pipeline():
             start_datetime=start_datetime,
             end_datetime=end_datetime,
         )
+
+
+    @task.virtualenv(
+        task_id="compute_monitoring",
+        requirements=[
+            # "--trusted-host 172.17.0.1",
+            # "--extra-index-url http://172.17.0.1",
+            "batch_prediction_pipeline",
+        ],
+        python_version="3.10",
+        system_site_packages=True,
+    )
+    def compute_monitoring(feature_view_metadata: dict):
+        """Compute monitoring metrics for newly obbserved data.
+
+        Args:
+            feature_view_metadata: metadata containing the version of the feature store feature view version.
+        """
+
+        from batch_prediction_pipeline import monitoring
+
+        monitoring.compute(
+            feature_view_version=feature_view_metadata["feature_view_version"],
+        )
+
 
     @task.branch(task_id="if_run_hyperparameter_tuning_branching")
     def if_run_hyperparameter_tuning_branching(run_hyperparameter_tuning: bool) -> bool:
@@ -335,8 +337,8 @@ def ml_pipeline():
             >> branch_skip_hyperparameter_tuning_operator,
         ]
         >> train_metadata
-        >> batch_predict_step
         >> compute_monitoring_step
+        >> batch_predict_step
     )
 
 ml_pipeline()
