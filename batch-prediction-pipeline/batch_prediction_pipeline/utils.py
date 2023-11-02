@@ -3,6 +3,7 @@ import logging
 from pathlib import Path
 from typing import Optional, Union
 import joblib
+import wandb
 
 import pandas as pd
 
@@ -138,3 +139,33 @@ def read_blob_from(bucket: storage.Bucket, blob_name: str) -> Optional[pd.DataFr
 
     with blob.open("rb") as f:
         return pd.read_parquet(f)
+
+
+def init_wandb_run(
+    name: str,
+    group: Optional[str] = None,
+    job_type: Optional[str] = None,
+    add_timestamp_to_name: bool = False,
+    run_id: Optional[str] = None,
+    resume: Optional[str] = None,
+    reinit: bool = False,
+    project: str = settings.SETTINGS["WANDB_PROJECT"],
+    entity: str = settings.SETTINGS["WANDB_ENTITY"],
+):
+    """Wrapper over the wandb.init function."""
+
+    if add_timestamp_to_name:
+        name = f"{name}_{pd.Timestamp.now().strftime('%Y-%m-%d_%H-%M-%S')}"
+
+    run = wandb.init(
+        project=project,
+        entity=entity,
+        name=name,
+        group=group,
+        job_type=job_type,
+        id=run_id,
+        reinit=reinit,
+        resume=resume,
+    )
+
+    return run

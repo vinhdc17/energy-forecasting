@@ -9,6 +9,7 @@ from batch_prediction_pipeline import data
 from batch_prediction_pipeline import settings
 from batch_prediction_pipeline import utils
 
+from batch_prediction_pipeline.utils import init_wandb_run
 
 logger = utils.get_logger(__name__)
 
@@ -66,7 +67,8 @@ def predict(
     logger.info("Successfully loaded data from feature store.")
 
     logger.info("Loading model from model registry...")
-    model = load_model_from_model_registry(project, model_version)
+    #model = load_model_from_model_registry(project, model_version)
+    model = load_best_model_from_wandb()
     logger.info("Successfully loaded model from model registry.")
 
     logger.info("Making predictions...")
@@ -90,6 +92,17 @@ def predict(
     logger.info("Merging predictions with cached predictions...")
     save_for_monitoring(predictions, start_datetime)
     logger.info("Successfully merged predictions with cached predictions...")
+
+
+def load_best_model_from_wandb(): 
+    with init_wandb_run(
+        name="load_best_model", job_type="pred", group="predic", add_timestamp_to_name=True
+    ) as run:
+        best_model_artifact = run.use_artifact("best_model:latest")
+        download_dir = best_model_artifact.download()
+        model_path = Path(download_dir) / "best_model.pkl"
+        model = utils.load_model(model_path)
+        return model
 
 
 def load_model_from_model_registry(project, model_version: int):
