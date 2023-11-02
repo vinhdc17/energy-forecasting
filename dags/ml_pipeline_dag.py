@@ -335,8 +335,8 @@ def ml_pipeline():
             >> branch_skip_hyperparameter_tuning_operator,
         ]
         >> train_metadata
-        >> compute_monitoring_step
         >> batch_predict_step
+        >> compute_monitoring_step
     )
 
 ml_pipeline()
