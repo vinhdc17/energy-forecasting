@@ -317,10 +317,10 @@ def ml_pipeline():
     train_metadata = train_from_best_config(feature_view_metadata)
 
     # Batch prediction pipeline
-    compute_monitoring_step = compute_monitoring(feature_view_metadata)
     batch_predict_step = batch_predict(
         feature_view_metadata, train_metadata, feature_pipeline_metadata
     )
+    compute_monitoring_step = compute_monitoring(feature_view_metadata)
 
     # Define DAG structure.
     (
@@ -337,8 +337,8 @@ def ml_pipeline():
             >> branch_skip_hyperparameter_tuning_operator,
         ]
         >> train_metadata
-        >> compute_monitoring_step
         >> batch_predict_step
+        >> compute_monitoring_step
     )
 
 ml_pipeline()
