@@ -1,0 +1,59 @@
+{
+    "os": "Linux-6.2.0-1017-gcp-x86_64-with-glibc2.35",
+    "python": "3.10.12",
+    "heartbeatAt": "2023-11-02T06:22:09.493743",
+    "startedAt": "2023-11-02T06:22:09.017198",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "<python with no main file>",
+    "codePathLocal": null,
+    "git": {
+        "remote": "https://github.com/vinhdc17/energy-forecasting.git",
+        "commit": "8fa881a70d5fb268d81df9f130dfbc8c404b43fd"
+    },
+    "email": "vinhdc.17@grad.uit.edu.vn",
+    "root": "/root/energy-forecasting",
+    "host": "instance-group07",
+    "username": "root",
+    "executable": "/usr/bin/python3",
+    "cpu_count": 2,
+    "cpu_count_logical": 4,
+    "cpu_freq": {
+        "current": 2299.998,
+        "min": 0.0,
+        "max": 0.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2299.998,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2299.998,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2299.998,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2299.998,
+            "min": 0.0,
+            "max": 0.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 48.27519989013672,
+            "used": 19.34526824951172
+        }
+    },
+    "memory": {
+        "total": 14.622932434082031
+    }
+}
