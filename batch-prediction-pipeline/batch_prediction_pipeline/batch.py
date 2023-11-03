@@ -67,8 +67,8 @@ def predict(
     logger.info("Successfully loaded data from feature store.")
 
     logger.info("Loading model from model registry...")
-    #model = load_model_from_model_registry(project, model_version)
-    model = load_best_model_from_wandb()
+    model = load_model_from_model_registry(project, model_version)
+    #model = load_best_model_from_wandb()
     logger.info("Successfully loaded model from model registry.")
 
     logger.info("Making predictions...")
